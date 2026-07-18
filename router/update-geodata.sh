@@ -2,8 +2,8 @@
 set -eu
 
 # 修改为你的 GitHub 用户名和仓库名。
-OWNER="CHANGE_ME"
-REPO="passwall2-custom-rules"
+OWNER="Mianmianchen"
+REPO="passwall2-geodata-formian"
 
 BASE_URL="https://github.com/${OWNER}/${REPO}/releases/latest/download"
 TMP_DIR="/tmp/passwall2-custom-geodata.$$"
