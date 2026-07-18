@@ -1,0 +1,63 @@
+name: Build PassWall2 custom geodata
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub cron uses UTC. This is 05:20 UTC+8 every day.
+    - cron: "20 21 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: passwall2-geodata-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependency
+        run: python -m pip install --disable-pip-version-check protobuf
+
+      - name: Download and build
+        run: python scripts/build.py
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="build-$(date -u +%Y%m%d-%H%M%S)"
+
+          gh release create "$tag" \
+            dist/mianmian-geosite.dat \
+            dist/mianmian-geoip.dat \
+            dist/SHA256SUMS \
+            dist/build-report.txt \
+            --title "Latest PassWall2 geodata" \
+            --notes-file dist/release-notes.md \
+            --latest
+
+          # Keep the latest two automated releases for rollback.
+          mapfile -t old_tags < <(
+            gh release list --limit 100 \
+              --json tagName,createdAt \
+              --jq 'sort_by(.createdAt) | reverse | .[2:] | .[].tagName' \
+              | grep '^build-' || true
+          )
+
+          for old_tag in "${old_tags[@]}"; do
+            gh release delete "$old_tag" --cleanup-tag --yes
+          done
