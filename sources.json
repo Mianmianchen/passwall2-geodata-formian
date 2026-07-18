@@ -1,0 +1,21 @@
+{
+  "reject_for_mine": "https://raw.githubusercontent.com/Mianmianchen/MorebetterforEgern/refs/heads/main/rules/reject_for_mine.list",
+  "direct_for_mine": "https://raw.githubusercontent.com/Mianmianchen/MorebetterforEgern/refs/heads/main/rules/direct_for_mine.list",
+  "adblock_217heidai": "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockloon.list",
+  "adblock_loyalsoldier": "https://raw.githubusercontent.com/Loyalsoldier/clash-rules/release/reject.txt",
+  "adblock_blackmatrix7": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Surge/Advertising/Advertising_All.list",
+  "apple_direct": "https://raw.githubusercontent.com/Mianmianchen/MorebetterforEgern/refs/heads/main/rules/AppleDirect.list",
+  "apple_proxy": "https://raw.githubusercontent.com/Mianmianchen/MorebetterforEgern/refs/heads/main/rules/AppleProxy.list",
+  "microsoft": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Microsoft/Microsoft.list",
+  "google": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Google/Google.list",
+  "global_media": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/GlobalMedia/GlobalMedia.list",
+  "global": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Global/Global.list",
+  "paypal": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/PayPal/PayPal.list",
+  "game": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Game/Game.list",
+  "openai": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/OpenAI/OpenAI.list",
+  "gemini": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Gemini/Gemini.list",
+  "china_all": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Surge/China/China_All.list",
+  "china_domain": "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list",
+  "kuaishou": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Surge/KuaiShou/KuaiShou.list",
+  "lan": "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Lan/Lan.list"
+}
