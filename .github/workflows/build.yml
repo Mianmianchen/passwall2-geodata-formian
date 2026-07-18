@@ -3,7 +3,7 @@ name: Build PassWall2 custom geodata
 on:
   workflow_dispatch:
   schedule:
-    # GitHub cron uses UTC. This is 05:20 UTC+8 every day.
+    # UTC 21:20 = UTC+8 05:20
     - cron: "20 21 * * *"
 
 permissions:
@@ -33,12 +33,49 @@ jobs:
       - name: Download and build
         run: python scripts/build.py
 
+      - name: Prepare LuCI files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p luci-files
+
+          cp dist/mianmian-geosite.dat luci-files/geosite.dat
+          cp dist/mianmian-geoip.dat luci-files/geoip.dat
+
+          cd luci-files
+          sha256sum geosite.dat > geosite.dat.sha256sum
+          sha256sum geoip.dat > geoip.dat.sha256sum
+
+      - name: Publish geodata branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cd luci-files
+
+          git init
+          git checkout -b geodata
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git commit -m "Update PassWall2 geodata"
+
+          git remote add origin \
+            "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+          git push --force origin geodata
+
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
+
           tag="build-$(date -u +%Y%m%d-%H%M%S)"
 
           gh release create "$tag" \
@@ -50,12 +87,11 @@ jobs:
             --notes-file dist/release-notes.md \
             --latest
 
-          # Keep the latest two automated releases for rollback.
           mapfile -t old_tags < <(
             gh release list --limit 100 \
               --json tagName,createdAt \
-              --jq 'sort_by(.createdAt) | reverse | .[2:] | .[].tagName' \
-              | grep '^build-' || true
+              --jq 'sort_by(.createdAt) | reverse | .[2:] | .[].tagName' |
+              grep '^build-' || true
           )
 
           for old_tag in "${old_tags[@]}"; do
